@@ -3,10 +3,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".main.DrawGraphFragment"
-    android:id="@+id/draw_graph_root">
+    android:background="#fff">
 
+    <RelativeLayout
+        android:id="@+id/draw_graph_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="56dp" />
 
+    <LinearLayout
+        android:id="@+id/draw_graph_tool_layer"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#F3F3F3"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"/>
 
 
 </RelativeLayout>

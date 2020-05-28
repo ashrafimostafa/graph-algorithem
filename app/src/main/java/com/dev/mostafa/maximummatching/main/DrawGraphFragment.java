@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.dev.mostafa.maximummatching.R;
+import com.dev.mostafa.maximummatching.customview.EdgeCV;
 import com.dev.mostafa.maximummatching.customview.NodeCV;
 
 import org.w3c.dom.Node;
@@ -34,12 +35,16 @@ public class DrawGraphFragment extends Fragment implements View.OnClickListener 
 
     List<NodeCV> nodeCVList = new ArrayList<>();
 
+    List<EdgeCV> edgeCVList = new ArrayList<>();
+
     View view;
 
     int cnt = 0;
 
-    private int _xDelta;
-    private int _yDelta;
+    boolean startSelected = false;
+    boolean endSelected = false;
+
+    float sx, sy, ex, ey;
 
     public DrawGraphFragment() {
         // Required empty public constructor
@@ -55,23 +60,6 @@ public class DrawGraphFragment extends Fragment implements View.OnClickListener 
         init(view);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         return view;
     }
 
@@ -79,26 +67,21 @@ public class DrawGraphFragment extends Fragment implements View.OnClickListener 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//        NodeCV nodeCV1 = new NodeCV(getContext());
-//        nodeCV1.setNode("B" , 200 , 200);
-//        nodeCVList.add(nodeCV1);
-//        rootView.addView(nodeCV1);
-//        nodeCV1.setOnClickListener(DrawGraphFragment.this);
         rootView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                int action  = MotionEventCompat.getActionMasked(event);
-                Log.i("graphh" , "here:" + action);
-                switch (action){
+                int action = MotionEventCompat.getActionMasked(event);
+                Log.i("graphh", "here:" + action);
+                switch (action) {
                     case (MotionEvent.ACTION_DOWN):
                         cnt++;
                         NodeCV nodeCV = new NodeCV(getContext());
-                        nodeCV.setNode(cnt + "" , event.getX() , event.getY());
+                        nodeCV.setNode(cnt + "", event.getX(), event.getY());
                         nodeCVList.add(nodeCV);
                         rootView.addView(nodeCV);
                         nodeCV.setOnClickListener(DrawGraphFragment.this);
 
-                        Log.i("graphh" , "node added " + cnt );
+                        Log.i("graphh", "node added " + cnt);
                         return false;
                     default:
                         return false;
@@ -108,7 +91,7 @@ public class DrawGraphFragment extends Fragment implements View.OnClickListener 
 
     }
 
-    private void init(View view){
+    private void init(View view) {
         rootView = view.findViewById(R.id.draw_graph_root);
 
     }
@@ -116,11 +99,23 @@ public class DrawGraphFragment extends Fragment implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        for (int i = 0; i <nodeCVList.size() ; i++) {
-            if (v == nodeCVList.get(i)){
-                Toast.makeText(getContext()
-                        , "node click: " + nodeCVList.get(i).getNodeName()
-                        , Toast.LENGTH_SHORT).show();
+        for (int i = 0; i < nodeCVList.size(); i++) {
+            if (v == nodeCVList.get(i)) {
+                if (!startSelected) {
+                    Toast.makeText(getContext(), "start selected", Toast.LENGTH_SHORT).show();
+                    startSelected = true;
+                    sx = nodeCVList.get(i).getNodeInfo().getX();
+                    sy = nodeCVList.get(i).getNodeInfo().getY();
+                } else {
+                    startSelected = false;
+                    endSelected = false;
+                    ex = nodeCVList.get(i).getNodeInfo().getX();
+                    ey = nodeCVList.get(i).getNodeInfo().getY();
+                    EdgeCV edgeCV = new EdgeCV(getContext(), sx, sy, ex, ey);
+                    rootView.addView(edgeCV);
+                    edgeCVList.add(edgeCV);
+                }
+
             }
 
         }

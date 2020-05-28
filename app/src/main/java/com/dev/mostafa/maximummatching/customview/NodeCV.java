@@ -8,18 +8,21 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dev.mostafa.maximummatching.R;
+import com.dev.mostafa.maximummatching.model.NodeDM;
 
 public class NodeCV extends RelativeLayout {
 
     View view;
     TextView name;
 
+
     public NodeCV(Context context) {
         super(context);
         layoutInhalator();
+
     }
 
-    public NodeCV(Context context, AttributeSet attrs) {
+    public NodeCV(Context context, AttributeSet attrs ) {
         super(context, attrs);
         layoutInhalator();
     }
@@ -45,7 +48,8 @@ public class NodeCV extends RelativeLayout {
         name.setText(nodeName);
     }
 
-    public String getNodeName(){
-        return name.getText().toString();
+    public NodeDM getNodeInfo(){
+        //TODO exchange 10 with half of node size
+        return new NodeDM(name.getText().toString() , view.getX()+20 , view.getY()+20 );
     }
 }
