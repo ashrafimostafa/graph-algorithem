@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 import com.dev.mostafa.maximummatching.R;
 import com.dev.mostafa.maximummatching.customview.EdgeCV;
 import com.dev.mostafa.maximummatching.customview.NodeCV;
+import com.dev.mostafa.maximummatching.database.DataBaseHelper;
 import com.dev.mostafa.maximummatching.model.NodeDM;
 import com.dev.mostafa.maximummatching.tool.Constant;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -42,6 +44,9 @@ public class DrawGraphFragment extends Fragment implements View.OnClickListener 
     private View view;
     private RadioGroup modeRadio;
     private RadioButton nodeRadio, edgeRadio;
+    private ImageView graphList , apply , save , remove , setting , help;
+
+    private DataBaseHelper dataBaseHelper;
 
     /**
      * list of drawn node
@@ -134,8 +139,15 @@ public class DrawGraphFragment extends Fragment implements View.OnClickListener 
         modeRadio = view.findViewById(R.id.draw_graph_mode_radio);
         nodeRadio = view.findViewById(R.id.draw_graph_node_radio);
         edgeRadio = view.findViewById(R.id.draw_graph_edge_radio);
-
         modeRadio.setOnCheckedChangeListener(DrawGraphFragment.this);
+        dataBaseHelper = new DataBaseHelper(getContext());
+        graphList = view.findViewById(R.id.draw_graph_list);
+        apply = view.findViewById(R.id.draw_graph_apply);
+        save = view.findViewById(R.id.draw_graph_save);
+        setting = view.findViewById(R.id.draw_graph_setting);
+        remove = view.findViewById(R.id.draw_graph_remove);
+        help = view.findViewById(R.id.draw_graph_question);
+        graphList.setOnClickListener(DrawGraphFragment.this);
 
 
     }
@@ -157,33 +169,36 @@ public class DrawGraphFragment extends Fragment implements View.OnClickListener 
      */
     @Override
     public void onClick(View v) {
+        if (v == save){
 
-        for (int i = 0; i < nodeCVList.size(); i++) {
-            if (v == nodeCVList.get(i)) {
-                if (mode == Constant.MODE_EDIT_NODE) {
-                    selectedNode = nodeCVList.get(i);
-                    showRemoveNodeBottomSheet();
+        }else {
+            for (int i = 0; i < nodeCVList.size(); i++) {
+                if (v == nodeCVList.get(i)) {
+                    if (mode == Constant.MODE_EDIT_NODE) {
+                        selectedNode = nodeCVList.get(i);
+                        showRemoveNodeBottomSheet();
 
-                }else {
-                    if (!startSelected) {
-                        Toast.makeText(getContext(), "start selected", Toast.LENGTH_SHORT).show();
-                        startSelected = true;
-                        sx = nodeCVList.get(i).getNodeInfo().getX();
-                        sy = nodeCVList.get(i).getNodeInfo().getY();
                     } else {
-                        startSelected = false;
-                        endSelected = false;
-                        ex = nodeCVList.get(i).getNodeInfo().getX();
-                        ey = nodeCVList.get(i).getNodeInfo().getY();
-                        EdgeCV edgeCV = new EdgeCV(getContext(), sx, sy, ex, ey);
-                        rootViewEdge.addView(edgeCV);
-                        edgeCVList.add(edgeCV);
+                        if (!startSelected) {
+                            Toast.makeText(getContext(), "start selected", Toast.LENGTH_SHORT).show();
+                            startSelected = true;
+                            sx = nodeCVList.get(i).getNodeInfo().getX();
+                            sy = nodeCVList.get(i).getNodeInfo().getY();
+                        } else {
+                            startSelected = false;
+                            endSelected = false;
+                            ex = nodeCVList.get(i).getNodeInfo().getX();
+                            ey = nodeCVList.get(i).getNodeInfo().getY();
+                            EdgeCV edgeCV = new EdgeCV(getContext(), sx, sy, ex, ey);
+                            rootViewEdge.addView(edgeCV);
+                            edgeCVList.add(edgeCV);
+                        }
+
                     }
 
                 }
 
             }
-
         }
 
 
