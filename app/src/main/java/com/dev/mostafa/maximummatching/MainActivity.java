@@ -3,6 +3,8 @@ package com.dev.mostafa.maximummatching;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
+
+import com.dev.mostafa.maximummatching.main.DrawGraphFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -12,6 +14,8 @@ import com.google.android.material.navigation.NavigationView;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.ui.AppBarConfiguration;
 
 public class MainActivity extends AppCompatActivity {
@@ -34,6 +38,18 @@ public class MainActivity extends AppCompatActivity {
                 .setDrawerLayout(drawer)
                 .build();
 
+        setMainFrame(new DrawGraphFragment());
+
+    }
+
+    /**
+     * setting main fragment of main activity
+     * @param fragment target fragment
+     */
+    private void setMainFrame(Fragment fragment){
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.main_frame, fragment);
+        fragmentTransaction.commit();
     }
 
 }
