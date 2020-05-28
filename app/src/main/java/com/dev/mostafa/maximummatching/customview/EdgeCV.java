@@ -4,13 +4,13 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.AttributeSet;
 import android.view.View;
 
-import androidx.annotation.Nullable;
+import com.dev.mostafa.maximummatching.R;
 
 public class EdgeCV extends View {
-    Paint paint = new Paint();
+    Paint paintLine = new Paint();
+    Paint paintText = new Paint();
     float startX , startY, endX , endY = 0;
 
 
@@ -24,16 +24,20 @@ public class EdgeCV extends View {
     }
 
     public void layoutInhalator(){
-        paint.setColor(Color.BLUE);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(10);
-        paint.setStrokeWidth(2);
-        paint.setAntiAlias(true);
+        paintLine.setColor(getResources().getColor(R.color.colorPrimary));
+        paintLine.setStyle(Paint.Style.STROKE);
+        paintLine.setStrokeWidth(10);
+        paintLine.setAntiAlias(true);
+
+        paintText.setColor(Color.BLACK);
+        paintText.setTextSize(25);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        canvas.drawLine(startX , startY , endX , endY , paint);
+        canvas.drawLine(startX , startY , endX , endY , paintLine);
+        canvas.drawText("line 1" , (startX + endX)/2 ,
+                (startY + endY)/2  , paintText);
     }
 
 }
