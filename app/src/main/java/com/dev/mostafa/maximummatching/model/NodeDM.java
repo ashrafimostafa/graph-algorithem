@@ -12,6 +12,13 @@ public class NodeDM {
         this.graphId = graphId;
     }
 
+    public NodeDM(String name, float x, float y, int graphId, int id) {
+        this.name = name;
+        this.x = x;
+        this.y = y;
+        this.graphId = graphId;
+        this.id = id;
+    }
 
     public String getName() {
         return name;

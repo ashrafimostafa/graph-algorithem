@@ -1,9 +1,12 @@
 package com.dev.mostafa.maximummatching;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 
+import com.dev.mostafa.maximummatching.database.DataBaseHelper;
+import com.dev.mostafa.maximummatching.database.SessionManager;
 import com.dev.mostafa.maximummatching.main.DrawGraphFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -19,6 +22,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.ui.AppBarConfiguration;
 
 public class MainActivity extends AppCompatActivity {
+    private SessionManager manager;
+    private DataBaseHelper dataBaseHelper;
 
     private AppBarConfiguration mAppBarConfiguration;
 
@@ -39,6 +44,15 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         setMainFrame(new DrawGraphFragment());
+        manager = new SessionManager(this);
+        dataBaseHelper = new DataBaseHelper(this);
+
+        if (manager.getFirstTime()){
+            dataBaseHelper.addAlgorithm("Maximum Matching" , "a" , "a");
+            manager.setFirstTime(false);
+        }
+
+
 
     }
 

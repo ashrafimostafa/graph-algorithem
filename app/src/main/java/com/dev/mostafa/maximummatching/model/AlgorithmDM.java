@@ -4,7 +4,8 @@ public class AlgorithmDM {
     private int id;
     private String name , document , pseudoCode;
 
-    public AlgorithmDM(String name, String document, String pseudoCode) {
+    public AlgorithmDM(int id, String name, String document, String pseudoCode) {
+        this.id = id;
         this.name = name;
         this.document = document;
         this.pseudoCode = pseudoCode;

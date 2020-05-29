@@ -11,6 +11,14 @@ public class EdgeDM {
         this.name = name;
     }
 
+    public EdgeDM(int id, int graphId, int startNode, int endNode, String name) {
+        this.id = id;
+        this.graphId = graphId;
+        this.startNode = startNode;
+        this.endNode = endNode;
+        this.name = name;
+    }
+
     public int getId() {
         return id;
     }
