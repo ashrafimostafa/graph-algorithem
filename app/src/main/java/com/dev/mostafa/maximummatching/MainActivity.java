@@ -1,15 +1,11 @@
 package com.dev.mostafa.maximummatching;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.view.Menu;
 
 import com.dev.mostafa.maximummatching.database.DataBaseHelper;
 import com.dev.mostafa.maximummatching.database.SessionManager;
 import com.dev.mostafa.maximummatching.main.DrawGraphFragment;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+
 import com.google.android.material.navigation.NavigationView;
 
 
@@ -32,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setBackground(getResources().getDrawable(R.drawable.drawer_gradiant));
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -39,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
+                R.id.nav_document, R.id.nav_open_source, R.id.nav_about , R.id.nav_exit)
                 .setDrawerLayout(drawer)
                 .build();
 

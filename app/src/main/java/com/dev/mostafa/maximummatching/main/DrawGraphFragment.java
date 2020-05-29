@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.view.MotionEventCompat;
 import androidx.fragment.app.Fragment;
 
@@ -82,8 +83,6 @@ public class DrawGraphFragment extends Fragment implements View.OnClickListener,
     boolean endSelected = false;
 
     float sx, sy, ex, ey;
-
-    int startId , endId;
 
     public DrawGraphFragment() {
         // Required empty public constructor
@@ -200,6 +199,8 @@ public class DrawGraphFragment extends Fragment implements View.OnClickListener,
             } else {
                 showAlgorithmListBottomSheet();
             }
+        } else if (v == help) {
+            showHelpDialog();
         } else {
             for (int i = 0; i < nodeCVList.size(); i++) {
                 if (v == nodeCVList.get(i)) {
@@ -311,22 +312,21 @@ public class DrawGraphFragment extends Fragment implements View.OnClickListener,
                         int startNode = 0;
                         int endNode = 0;
                         EdgeDM edgeDM = edgeCVList.get(i).getEdgeInfo();
-                        float[]position = edgeCVList.get(i).getEdgePosition();
+                        float[] position = edgeCVList.get(i).getEdgePosition();
 
-                        for (int j = 0; j <nodeCVList.size() ; j++) {
+                        for (int j = 0; j < nodeCVList.size(); j++) {
                             if (nodeCVList.get(j).getNodeInfo().getX()
                                     == position[0] &&
-                            nodeCVList.get(j).getNodeInfo().getY()
-                                    == position[1]){
+                                    nodeCVList.get(j).getNodeInfo().getY()
+                                            == position[1]) {
                                 startNode = nodeCVList.get(j).getId();
                             }
                             if (nodeCVList.get(j).getNodeInfo().getX()
                                     == position[2] &&
                                     nodeCVList.get(j).getNodeInfo().getY()
-                                            == position[3]){
+                                            == position[3]) {
                                 endNode = nodeCVList.get(j).getId();
                             }
-
                         }
 
                         dataBaseHelper.AddEdge(edgeDM.getName(), graphId
@@ -335,8 +335,6 @@ public class DrawGraphFragment extends Fragment implements View.OnClickListener,
                     }
                     dialog.dismiss();
                 }
-
-
             }
         });
 
@@ -527,6 +525,34 @@ public class DrawGraphFragment extends Fragment implements View.OnClickListener,
             }
         });
 
+    }
+
+    private void showHelpDialog() {
+
+        TextView ok;
+
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
+        View view = inflater.inflate(R.layout.dialog_help, null);
+
+        final AlertDialog.Builder alertdialog = new
+                AlertDialog.Builder(getActivity());
+        alertdialog.setView(view);
+        alertdialog.setCancelable(true);
+
+        ok = view.findViewById(R.id.help_dialog_ok);
+
+
+        final AlertDialog alert = alertdialog.create();
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alert.dismiss();
+            }
+        });
+
+        alert.getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.rounded_white_background));
+        alert.show();
     }
 
 }
