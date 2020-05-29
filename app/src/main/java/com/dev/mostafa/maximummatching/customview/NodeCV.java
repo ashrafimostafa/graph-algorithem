@@ -59,6 +59,6 @@ public class NodeCV extends RelativeLayout {
 
     public NodeDM getNodeInfo(){
         //TODO exchange 10 with half of node size
-        return new NodeDM(name.getText().toString() , view.getX()+20 , view.getY()+20 , 1 );
+        return new NodeDM(name.getText().toString() , view.getX() , view.getY() , 1 );
     }
 }

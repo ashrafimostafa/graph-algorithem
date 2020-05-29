@@ -42,7 +42,7 @@ public class EdgeCV extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        canvas.drawLine(startX , startY , endX , endY , paintLine);
+        canvas.drawLine(startX+20 , startY+20 , endX+20 , endY+20 , paintLine);
         canvas.drawText(weight + "" , (startX + endX)/2 ,
                 (startY + endY)/2  , paintText);
     }
