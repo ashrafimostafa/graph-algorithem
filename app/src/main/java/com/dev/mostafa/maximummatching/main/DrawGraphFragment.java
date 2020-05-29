@@ -83,6 +83,8 @@ public class DrawGraphFragment extends Fragment implements View.OnClickListener,
 
     float sx, sy, ex, ey;
 
+    int startId , endId;
+
     public DrawGraphFragment() {
         // Required empty public constructor
     }
@@ -216,9 +218,7 @@ public class DrawGraphFragment extends Fragment implements View.OnClickListener,
                             endSelected = false;
                             ex = nodeCVList.get(i).getNodeInfo().getX();
                             ey = nodeCVList.get(i).getNodeInfo().getY();
-                            EdgeCV edgeCV = new EdgeCV(getContext(), sx, sy, ex, ey);
-                            rootViewEdge.addView(edgeCV);
-                            edgeCVList.add(edgeCV);
+                            showGetEdgeWeightDialog();
                         }
 
                     }
@@ -300,7 +300,39 @@ public class DrawGraphFragment extends Fragment implements View.OnClickListener,
                     name.setError("enter graph name");
                 } else {
                     int graphId = (int) dataBaseHelper.addGraph(name.getText().toString());
-                    Log.i("graphh", "id is : " + graphId);
+                    for (int i = 0; i < nodeCVList.size(); i++) {
+                        NodeDM nodeDM = nodeCVList.get(i).getNodeInfo();
+                        int id = (int) dataBaseHelper.AddNode(nodeDM.getName(), graphId
+                                , nodeDM.getX(), nodeDM.getY());
+                        nodeCVList.get(i).setId(id);
+                    }
+
+                    for (int i = 0; i < edgeCVList.size(); i++) {
+                        int startNode = 0;
+                        int endNode = 0;
+                        EdgeDM edgeDM = edgeCVList.get(i).getEdgeInfo();
+                        float[]position = edgeCVList.get(i).getEdgePosition();
+
+                        for (int j = 0; j <nodeCVList.size() ; j++) {
+                            if (nodeCVList.get(j).getNodeInfo().getX()
+                                    == position[0] &&
+                            nodeCVList.get(j).getNodeInfo().getY()
+                                    == position[1]){
+                                startNode = nodeCVList.get(j).getId();
+                            }
+                            if (nodeCVList.get(j).getNodeInfo().getX()
+                                    == position[2] &&
+                                    nodeCVList.get(j).getNodeInfo().getY()
+                                            == position[3]){
+                                endNode = nodeCVList.get(j).getId();
+                            }
+
+                        }
+
+                        dataBaseHelper.AddEdge(edgeDM.getName(), graphId
+                                , startNode, endNode
+                                , edgeDM.getWeight());
+                    }
                     dialog.dismiss();
                 }
 
@@ -406,14 +438,15 @@ public class DrawGraphFragment extends Fragment implements View.OnClickListener,
             nodeCV.setOnClickListener(DrawGraphFragment.this);
         }
 
-        for (int i = 0; i <edgeDMList.size() ; i++) {
+        for (int i = 0; i < edgeDMList.size(); i++) {
             NodeDM startNode = dataBaseHelper.getNodeById(edgeDMList.get(i).getStartNode());
             NodeDM endNode = dataBaseHelper.getNodeById(edgeDMList.get(i).getEndNode());
             EdgeCV edgeCV = new EdgeCV(getContext()
                     , startNode.getX()
                     , startNode.getY()
                     , endNode.getX()
-                    , endNode.getY());
+                    , endNode.getY()
+                    , edgeDMList.get(i).getWeight());
             rootViewEdge.addView(edgeCV);
             edgeCVList.add(edgeCV);
         }
@@ -453,6 +486,46 @@ public class DrawGraphFragment extends Fragment implements View.OnClickListener,
 
     private void applyAlgorithm(AlgorithmDM selectedAlgorithm) {
         Toast.makeText(getContext(), selectedAlgorithm.getName(), Toast.LENGTH_SHORT).show();
+
+    }
+
+    private void showGetEdgeWeightDialog() {
+        View view = getLayoutInflater().inflate(R.layout.sheet_edge_weight, null);
+        final BottomSheetDialog dialog = new BottomSheetDialog(getActivity());
+        dialog.setContentView(view);
+        dialog.show();
+
+
+        final EditText weight = view.findViewById(R.id.sheet_edge_weight_weight);
+        TextView ok = view.findViewById(R.id.sheet_edge_weight_ok);
+        TextView cancel = view.findViewById(R.id.sheet_edge_weight_cancel);
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (weight.getText().toString().length() < 1) {
+                    weight.setError("enter edge weight");
+                } else {
+                    EdgeCV edgeCV = new EdgeCV(getContext(), sx
+                            , sy, ex, ey, Double.parseDouble(weight.getText().toString()));
+                    rootViewEdge.addView(edgeCV);
+                    edgeCVList.add(edgeCV);
+                    dialog.dismiss();
+                }
+
+
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startSelected = false;
+                endSelected = false;
+                dialog.dismiss();
+            }
+        });
 
     }
 

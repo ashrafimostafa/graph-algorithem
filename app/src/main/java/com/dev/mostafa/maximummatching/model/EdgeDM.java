@@ -3,20 +3,23 @@ package com.dev.mostafa.maximummatching.model;
 public class EdgeDM {
     private int id , graphId , startNode , endNode;
     private String name;
+    private double weight;
 
-    public EdgeDM(int graphId, int startNode, int endNode, String name) {
-        this.graphId = graphId;
-        this.startNode = startNode;
-        this.endNode = endNode;
-        this.name = name;
-    }
-
-    public EdgeDM(int id, int graphId, int startNode, int endNode, String name) {
+    public EdgeDM(int id, int graphId, int startNode, int endNode, String name, double weight) {
         this.id = id;
         this.graphId = graphId;
         this.startNode = startNode;
         this.endNode = endNode;
         this.name = name;
+        this.weight = weight;
+    }
+
+    public EdgeDM(int graphId, int startNode, int endNode, String name, double weight) {
+        this.graphId = graphId;
+        this.startNode = startNode;
+        this.endNode = endNode;
+        this.name = name;
+        this.weight = weight;
     }
 
     public int getId() {
@@ -37,5 +40,9 @@ public class EdgeDM {
 
     public String getName() {
         return name;
+    }
+
+    public double getWeight() {
+        return weight;
     }
 }

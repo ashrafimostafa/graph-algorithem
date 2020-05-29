@@ -14,6 +14,7 @@ public class NodeCV extends RelativeLayout {
 
     View view;
     TextView name;
+    int id;
 
 
     public NodeCV(Context context) {
@@ -46,6 +47,14 @@ public class NodeCV extends RelativeLayout {
         view.setX(x);
         view.setY(y);
         name.setText(nodeName);
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId(){
+        return id;
     }
 
     public NodeDM getNodeInfo(){

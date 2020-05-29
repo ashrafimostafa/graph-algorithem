@@ -178,6 +178,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                         , c.getInt(c.getColumnIndex(Constant.KEY_START_NODE))
                         , c.getInt(c.getColumnIndex(Constant.KEY_END_NODE))
                         , c.getString(c.getColumnIndex(Constant.KEY_NAME))
+                        , c.getDouble(c.getColumnIndex(Constant.KEY_WEIGHT))
                 );
                 edgeDMList.add(edgeDM);
             } while (c.moveToNext());
@@ -204,5 +205,27 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return nodeDM;
     }
 
+    public long AddNode(String name , int graphId , float x , float y){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(Constant.KEY_NAME , name);
+        values.put(Constant.KEY_GRAPH_ID , graphId);
+        values.put(Constant.KEY_X , x);
+        values.put(Constant.KEY_Y , y);
+        return db.insert(Constant.NODE_TABLE_NAME, null, values);
+    }
+
     //-------------------- Edge Table Function --------------------//
+    public long AddEdge(String name , int graphId , int startNode, int endNode , double weight){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(Constant.KEY_NAME , name);
+        values.put(Constant.KEY_GRAPH_ID , graphId);
+        values.put(Constant.KEY_START_NODE , startNode);
+        values.put(Constant.KEY_END_NODE , endNode);
+        values.put(Constant.KEY_WEIGHT , weight);
+        return db.insert(Constant.EDGE_TABLE_NAME, null, values);
+    }
+
+
 }

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Enter edge weight :"
+        android:textColor="#232323"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/sheet_edge_weight_weight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="10dp"
+        android:hint="edge weight"
+        android:inputType="numberDecimal"/>
+
+    <LinearLayout
+        android:id="@+id/sheet_choose_cog_cameraLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:layout_marginBottom="20dp">
+
+        <TextView
+            android:id="@+id/sheet_edge_weight_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Yes"
+            android:textColor="#232323"
+            android:textSize="16sp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginStart="30dp"/>
+
+        <TextView
+            android:id="@+id/sheet_edge_weight_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No"
+            android:textColor="#232323"
+            android:textSize="16sp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginStart="30dp"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>
