@@ -14,6 +14,7 @@ public class EdgeCV extends View {
     Paint paintText = new Paint();
     float startX, startY, endX, endY = 0;
     double weight;
+    Canvas canvas;
 
 
     public EdgeCV(Context context, float sx, float sy
@@ -40,6 +41,7 @@ public class EdgeCV extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
+        this.canvas = canvas;
         canvas.drawLine(startX + 20, startY + 20, endX + 20, endY + 20, paintLine);
         canvas.drawText(weight + "", (startX + endX) / 2,
                 (startY + endY) / 2, paintText);
@@ -54,6 +56,8 @@ public class EdgeCV extends View {
                 , weight
         );
     }
+
+
 
     public float[] getEdgePosition() {
         float[] position = new float[4];

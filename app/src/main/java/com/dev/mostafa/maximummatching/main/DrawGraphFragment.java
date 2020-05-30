@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dev.mostafa.maximummatching.R;
+import com.dev.mostafa.maximummatching.algorithm.matching.EdmondBlossomMaxMatch;
 import com.dev.mostafa.maximummatching.customview.EdgeCV;
 import com.dev.mostafa.maximummatching.customview.NodeCV;
 import com.dev.mostafa.maximummatching.database.DataBaseHelper;
@@ -35,6 +36,8 @@ import com.dev.mostafa.maximummatching.model.NodeDM;
 import com.dev.mostafa.maximummatching.tool.Constant;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import java.io.BufferedReader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -483,7 +486,39 @@ public class DrawGraphFragment extends Fragment implements View.OnClickListener,
     }
 
     private void applyAlgorithm(AlgorithmDM selectedAlgorithm) {
-        Toast.makeText(getContext(), selectedAlgorithm.getName(), Toast.LENGTH_SHORT).show();
+        //todo add other algorithm and switch
+        BufferedReader bufReader = null;
+
+        int nodeCnt , edgeCnt;
+        nodeCnt = nodeCVList.size();
+        edgeCnt = edgeCVList.size();
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(1);
+        stringBuilder.append(nodeCnt);
+        stringBuilder.append(edgeCnt);
+        for (int i = 0; i <edgeCnt; i++) {
+
+
+        }
+
+
+
+
+        bufReader = new BufferedReader(
+                new StringReader(
+                        "1\n10\n10\n0 1\n0 2\n2 3\n3 4\n4 5\n5 0\n6 1\n4 7\n8 1\n7 9\n"));
+        EdmondBlossomMaxMatch dsp = new EdmondBlossomMaxMatch();
+        try {
+            int totalGraphs = dsp.readTotalGraphCount(bufReader);
+            dsp.readNextGraph(bufReader);
+            dsp.edmondExec();
+            Log.i("graphh" , dsp.getResult());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+
 
     }
 
