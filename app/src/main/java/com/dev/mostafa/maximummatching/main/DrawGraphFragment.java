@@ -39,7 +39,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import java.io.BufferedReader;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -489,35 +491,70 @@ public class DrawGraphFragment extends Fragment implements View.OnClickListener,
         //todo add other algorithm and switch
         BufferedReader bufReader = null;
 
-        int nodeCnt , edgeCnt;
+        int nodeCnt, edgeCnt;
         nodeCnt = nodeCVList.size();
         edgeCnt = edgeCVList.size();
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(1);
+        stringBuilder.append("\n");
         stringBuilder.append(nodeCnt);
+        stringBuilder.append("\n");
         stringBuilder.append(edgeCnt);
-        for (int i = 0; i <edgeCnt; i++) {
+        stringBuilder.append("\n");
 
+
+        Map<Integer, NodeDM> nodeDMMap = new HashMap<>();
+
+        int[][] edgeArray = new int[edgeCnt][2];
+
+
+        //map each node to a number
+        for (int i = 0; i < nodeCnt; i++) {
+            NodeDM nodeDM = nodeCVList.get(i).getNodeInfo();
+            nodeDMMap.put(i, nodeDM);
+        }
+
+        //set array of edge according to map of node
+        for (int j = 0; j < edgeCnt; j++) {
+            int start = -1;
+            int end = -1;
+            float[] position = new float[4];
+
+            position = edgeCVList.get(j).getEdgePosition();
+
+            for (int i = 0; i < nodeCnt; i++) {
+                if (nodeDMMap.get(i).getX() == position[0] &&
+                        nodeDMMap.get(i).getY() == position[1]) {
+                    start = i;
+                }
+                if (nodeDMMap.get(i).getX() == position[2] &&
+                        nodeDMMap.get(i).getY() == position[3]) {
+                    end = i;
+                }
+            }
+
+            edgeArray[j][0] = start;
+            edgeArray[j][1] = end;
+            stringBuilder.append(start + " " + end + "\n");
 
         }
 
 
+        bufReader = new BufferedReader(new StringReader(stringBuilder.toString()));
 
+//        bufReader = new BufferedReader(
+//                new StringReader(
+//                        "1\n10\n10\n0 1\n0 2\n2 3\n3 4\n4 5\n5 0\n6 1\n4 7\n8 1\n7 9\n"));
 
-        bufReader = new BufferedReader(
-                new StringReader(
-                        "1\n10\n10\n0 1\n0 2\n2 3\n3 4\n4 5\n5 0\n6 1\n4 7\n8 1\n7 9\n"));
         EdmondBlossomMaxMatch dsp = new EdmondBlossomMaxMatch();
         try {
             int totalGraphs = dsp.readTotalGraphCount(bufReader);
             dsp.readNextGraph(bufReader);
             dsp.edmondExec();
-            Log.i("graphh" , dsp.getResult());
+            Log.i("graphh", dsp.getResult());
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
 
 
     }
