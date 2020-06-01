@@ -16,35 +16,56 @@ public class EdgeCV extends View {
     double weight;
     Canvas canvas;
 
+    private boolean selectMode = false;
+
 
     public EdgeCV(Context context, float sx, float sy
             , float ex, float ey, double weight) {
         super(context);
-        layoutInhalator();
         startX = sx;
         startY = sy;
         endX = ex;
         endY = ey;
         this.weight = weight;
+        selectMode = false;
+        layoutInhalator();
+    }
+
+    public EdgeCV(Context context, float sx, float sy
+            , float ex, float ey) {
+        super(context);
+        startX = sx;
+        startY = sy;
+        endX = ex;
+        endY = ey;
+        this.weight = 1;
+        selectMode = true;
+        layoutInhalator();
     }
 
 
     public void layoutInhalator() {
-        paintLine.setColor(getResources().getColor(R.color.colorPrimary));
+        if (selectMode){
+            paintLine.setColor(getResources().getColor(R.color.red));
+        }else {
+            paintLine.setColor(getResources().getColor(R.color.colorPrimary));
+        }
         paintLine.setStyle(Paint.Style.STROKE);
         paintLine.setStrokeWidth(10);
         paintLine.setAntiAlias(true);
-
         paintText.setColor(Color.BLACK);
         paintText.setTextSize(25);
     }
+
 
     @Override
     protected void onDraw(Canvas canvas) {
         this.canvas = canvas;
         canvas.drawLine(startX + 20, startY + 20, endX + 20, endY + 20, paintLine);
-        canvas.drawText(weight + "", (startX + endX) / 2,
-                (startY + endY) / 2, paintText);
+        if (!selectMode){
+            canvas.drawText(weight + "", (startX + endX) / 2,
+                    (startY + endY) / 2, paintText);
+        }
     }
 
     public EdgeDM getEdgeInfo() {

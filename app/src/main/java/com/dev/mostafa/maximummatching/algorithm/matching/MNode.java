@@ -8,7 +8,7 @@ enum MNodeType {
 }
 
 public class MNode {
-    int label = 0;
+    public int label = 0;
     MNodeType type;
     MNode parent = null;
     LinkedHashSet<MNode> nbrs = new LinkedHashSet<MNode>();

@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.dev.mostafa.maximummatching.R;
 import com.dev.mostafa.maximummatching.algorithm.matching.EdmondBlossomMaxMatch;
+import com.dev.mostafa.maximummatching.algorithm.matching.MNode;
 import com.dev.mostafa.maximummatching.customview.EdgeCV;
 import com.dev.mostafa.maximummatching.customview.NodeCV;
 import com.dev.mostafa.maximummatching.database.DataBaseHelper;
@@ -34,6 +35,7 @@ import com.dev.mostafa.maximummatching.model.EdgeDM;
 import com.dev.mostafa.maximummatching.model.GraphDM;
 import com.dev.mostafa.maximummatching.model.NodeDM;
 import com.dev.mostafa.maximummatching.tool.Constant;
+import com.dev.mostafa.maximummatching.tool.Sort2DMatrix;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.io.BufferedReader;
@@ -551,7 +553,36 @@ public class DrawGraphFragment extends Fragment implements View.OnClickListener,
             int totalGraphs = dsp.readTotalGraphCount(bufReader);
             dsp.readNextGraph(bufReader);
             dsp.edmondExec();
-            Log.i("graphh", dsp.getResult());
+            String result = dsp.getResult();
+            ArrayList<MNode> mNodes = dsp.getResultModel();
+
+            int[][] ee = new int[edgeCnt][2];
+            for (int i = 0; i <mNodes.size() ; i++) {
+                ee[i][0] = mNodes.get(i).label;
+                ee[i][1] = mNodes.get(i).getMatchedWith().label;
+            }
+//            int[][] sortedArray = new int[edgeCnt][2];
+//
+//            sortedArray = Sort2DMatrix.sortRowWise(ee);
+
+            for (int i = 0; i <mNodes.size() ; i++) {
+                EdgeCV edgeCV = new EdgeCV(getContext()
+                        , nodeDMMap.get(ee[i][0]).getX()
+                        , nodeDMMap.get(ee[i][0]).getY()
+                        , nodeDMMap.get(ee[i][1]).getX()
+                        , nodeDMMap.get(ee[i][1]).getY()
+                        );
+                rootViewEdge.addView(edgeCV);
+
+            }
+
+
+
+
+
+
+
+//            Log.i("graphh", result);
         } catch (Exception e) {
             e.printStackTrace();
         }

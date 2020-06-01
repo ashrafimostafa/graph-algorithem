@@ -420,12 +420,28 @@ public class EdmondBlossomMaxMatch {
         for (MNode node : g.nodes) {
             if (node.matchedWith == null)
                 continue;
-            strBuild.append("Matched " + node.label + " : "
-                    + node.matchedWith.label + "\t");
+
+            strBuild.append(node.label + " "
+                    + node.matchedWith.label + "\n");
             matches++;
         }
         strBuild.append("\n\nTotal Nodes Matched " + (matches) + " \t");
         return strBuild.toString();
+    }
+
+    public ArrayList<MNode> getResultModel(){
+        // ArrayList<MNode> matched = new ArrayList<MNode>();
+        ArrayList<MNode> mNodes = new ArrayList<>();
+        StringBuilder strBuild = new StringBuilder();
+        int matches = 0;
+        for (MNode node : g.nodes) {
+            if (node.matchedWith == null)
+                continue;
+            mNodes.add(node);
+
+            matches++;
+        }
+        return mNodes;
     }
 
     public static void main(String[] args) {
