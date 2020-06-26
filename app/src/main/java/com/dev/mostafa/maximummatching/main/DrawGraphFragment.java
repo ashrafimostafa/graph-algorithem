@@ -27,6 +27,8 @@ import android.widget.Toast;
 import com.dev.mostafa.maximummatching.R;
 import com.dev.mostafa.maximummatching.algorithm.matching.EdmondBlossomMaxMatch;
 import com.dev.mostafa.maximummatching.algorithm.matching.MNode;
+import com.dev.mostafa.maximummatching.algorithm.prim.Graph;
+import com.dev.mostafa.maximummatching.algorithm.prim.MST;
 import com.dev.mostafa.maximummatching.customview.EdgeCV;
 import com.dev.mostafa.maximummatching.customview.NodeCV;
 import com.dev.mostafa.maximummatching.database.DataBaseHelper;
@@ -35,7 +37,6 @@ import com.dev.mostafa.maximummatching.model.EdgeDM;
 import com.dev.mostafa.maximummatching.model.GraphDM;
 import com.dev.mostafa.maximummatching.model.NodeDM;
 import com.dev.mostafa.maximummatching.tool.Constant;
-import com.dev.mostafa.maximummatching.tool.Sort2DMatrix;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.io.BufferedReader;
@@ -482,15 +483,98 @@ public class DrawGraphFragment extends Fragment implements View.OnClickListener,
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                applyAlgorithm(temporary.get(position));
-                dialog.dismiss();
+                switch (position) {
+                    case 0:
+                        applyAlgorithmMM(temporary.get(position));
+                        dialog.dismiss();
+                        break;
+                    case 1:
+                        applyAlgorithmPrime();
+                        dialog.dismiss();
+                        break;
+                    case 2:
+                        applyAlgorithmKruskal();
+                        dialog.dismiss();
+                        break;
+                }
+
             }
         });
 
     }
 
-    private void applyAlgorithm(AlgorithmDM selectedAlgorithm) {
-        //todo add other algorithm and switch
+    private void applyAlgorithmPrime() {
+
+        int nodeCnt, edgeCnt;
+        nodeCnt = nodeCVList.size();
+        edgeCnt = edgeCVList.size();
+
+
+        Map<Integer, NodeDM> nodeDMMap = new HashMap<>();
+
+        int[][] edgeArray = new int[edgeCnt][3];
+
+
+        //map each node to a number
+        for (int i = 0; i < nodeCnt; i++) {
+            NodeDM nodeDM = nodeCVList.get(i).getNodeInfo();
+            nodeDMMap.put(i, nodeDM);
+        }
+
+        //set array of edge according to map of node
+        for (int j = 0; j < edgeCnt; j++) {
+            int start = -1;
+            int end = -1;
+            float[] position = new float[5];
+
+            position = edgeCVList.get(j).getEdgePositionWithWeight();
+
+            for (int i = 0; i < nodeCnt; i++) {
+                if (nodeDMMap.get(i).getX() == position[0] &&
+                        nodeDMMap.get(i).getY() == position[1]) {
+                    start = i;
+                }
+                if (nodeDMMap.get(i).getX() == position[2] &&
+                        nodeDMMap.get(i).getY() == position[3]) {
+                    end = i;
+                }
+            }
+
+            edgeArray[j][0] = start;
+            edgeArray[j][1] = end;
+            edgeArray[j][2] = (int) position[4];
+
+        }
+
+        int graph[][] = new int[nodeCnt][nodeCnt];
+
+        Graph graph1 = new Graph(edgeCnt);
+        for (int i = 0; i < edgeCnt; i++) {
+            graph1.addEdge(edgeArray[i][0], edgeArray[i][1], edgeArray[i][2]);
+        }
+
+        graph = graph1.getMatrix();
+
+        MST mst = new MST(nodeCnt);
+        int result[] = mst.primMST(graph);
+
+        for (int i = 1; i < nodeCnt; i++) {
+            EdgeCV edgeCV = new EdgeCV(getContext()
+                    , nodeDMMap.get(result[i]).getX()
+                    , nodeDMMap.get(result[i]).getY()
+                    , nodeDMMap.get(i).getX()
+                    , nodeDMMap.get(i).getY()
+            );
+            rootViewEdge.addView(edgeCV);
+        }
+    }
+
+    private void applyAlgorithmKruskal() {
+
+
+    }
+
+    private void applyAlgorithmMM(AlgorithmDM selectedAlgorithm) {
         BufferedReader bufReader = null;
 
         int nodeCnt, edgeCnt;
@@ -557,7 +641,7 @@ public class DrawGraphFragment extends Fragment implements View.OnClickListener,
             ArrayList<MNode> mNodes = dsp.getResultModel();
 
             int[][] ee = new int[edgeCnt][2];
-            for (int i = 0; i <mNodes.size() ; i++) {
+            for (int i = 0; i < mNodes.size(); i++) {
                 ee[i][0] = mNodes.get(i).label;
                 ee[i][1] = mNodes.get(i).getMatchedWith().label;
             }
@@ -565,24 +649,16 @@ public class DrawGraphFragment extends Fragment implements View.OnClickListener,
 //
 //            sortedArray = Sort2DMatrix.sortRowWise(ee);
 
-            for (int i = 0; i <mNodes.size() ; i++) {
+            for (int i = 0; i < mNodes.size(); i++) {
                 EdgeCV edgeCV = new EdgeCV(getContext()
                         , nodeDMMap.get(ee[i][0]).getX()
                         , nodeDMMap.get(ee[i][0]).getY()
                         , nodeDMMap.get(ee[i][1]).getX()
                         , nodeDMMap.get(ee[i][1]).getY()
-                        );
+                );
                 rootViewEdge.addView(edgeCV);
 
             }
-
-
-
-
-
-
-
-//            Log.i("graphh", result);
         } catch (Exception e) {
             e.printStackTrace();
         }

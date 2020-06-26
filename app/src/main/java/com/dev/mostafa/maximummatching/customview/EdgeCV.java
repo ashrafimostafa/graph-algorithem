@@ -89,4 +89,14 @@ public class EdgeCV extends View {
         return position;
     }
 
+    public float[] getEdgePositionWithWeight() {
+        float[] position = new float[5];
+        position[0] = startX;
+        position[1] = startY;
+        position[2] = endX;
+        position[3] = endY;
+        position[4] = (float) weight;
+        return position;
+    }
+
 }

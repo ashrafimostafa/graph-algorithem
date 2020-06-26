@@ -65,6 +65,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (manager.getFirstTime()){
             dataBaseHelper.addAlgorithm("Maximum Matching" , "a" , "a");
+            dataBaseHelper.addAlgorithm("Prim" , "a" , "a");
+            dataBaseHelper.addAlgorithm("Kruskal" , "a" , "a");
             manager.setFirstTime(false);
         }
 
