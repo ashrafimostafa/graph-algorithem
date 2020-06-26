@@ -39,6 +39,7 @@ import com.dev.mostafa.maximummatching.model.NodeDM;
 import com.dev.mostafa.maximummatching.tool.Constant;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+
 import java.io.BufferedReader;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -571,6 +572,67 @@ public class DrawGraphFragment extends Fragment implements View.OnClickListener,
 
     private void applyAlgorithmKruskal() {
 
+        int nodeCnt, edgeCnt;
+        nodeCnt = nodeCVList.size();
+        edgeCnt = edgeCVList.size();
+
+        com.dev.mostafa.maximummatching.algorithm.kruskal.Graph graph1 =
+                new com.dev.mostafa.maximummatching.algorithm.kruskal.Graph(
+                        nodeCnt , edgeCnt);
+
+        Map<Integer, NodeDM> nodeDMMap = new HashMap<>();
+
+        int[][] edgeArray = new int[edgeCnt][3];
+
+
+        //map each node to a number
+        for (int i = 0; i < nodeCnt; i++) {
+            NodeDM nodeDM = nodeCVList.get(i).getNodeInfo();
+            nodeDMMap.put(i, nodeDM);
+        }
+
+        //set array of edge according to map of node
+        for (int j = 0; j < edgeCnt; j++) {
+            int start = -1;
+            int end = -1;
+            float[] position = new float[5];
+
+            position = edgeCVList.get(j).getEdgePositionWithWeight();
+
+            for (int i = 0; i < nodeCnt; i++) {
+                if (nodeDMMap.get(i).getX() == position[0] &&
+                        nodeDMMap.get(i).getY() == position[1]) {
+                    start = i;
+                }
+                if (nodeDMMap.get(i).getX() == position[2] &&
+                        nodeDMMap.get(i).getY() == position[3]) {
+                    end = i;
+                }
+            }
+
+            edgeArray[j][0] = start;
+            edgeArray[j][1] = end;
+            edgeArray[j][2] = (int) position[4];
+
+        }
+
+        for (int i = 0; i <edgeCnt ; i++) {
+            graph1.edge[i].src = edgeArray[i][0];
+            graph1.edge[i].dest = edgeArray[i][1];
+            graph1.edge[i].weight = edgeArray[i][2];
+        }
+
+        int [][]result = graph1.KruskalMST();
+
+        for (int i = 0; i < (nodeCnt-1); i++) {
+            EdgeCV edgeCV = new EdgeCV(getContext()
+                    , nodeDMMap.get(result[i][0]).getX()
+                    , nodeDMMap.get(result[i][0]).getY()
+                    , nodeDMMap.get(result[i][1]).getX()
+                    , nodeDMMap.get(result[i][1]).getY()
+            );
+            rootViewEdge.addView(edgeCV);
+        }
 
     }
 
