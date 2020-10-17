@@ -13,7 +13,7 @@ Implemented algorithem:
 
 - Kruskal
   
-//***********************************************
+  
   
 # Application Option: 
 
@@ -30,7 +30,5 @@ Implemented algorithem:
 - Document of each algorithem
 
   
-//***********************************************
   
-  
-*this android application developed with java for unuversity home work
+-- this android application developed with java for unuversity home work
