@@ -5,29 +5,29 @@ implement some graph algorithm on custom graph
 Implemented algorithem:
 
 
-Maximum Matching
+- Maximum Matching
 
 
-Prim
+- Prim
 
 
-Kruskal
+- Kruskal
   
 //***********************************************
   
-Application Option: 
+# Application Option: 
 
 
-Create custom grapg
+- Create custom grapg
 
 
-Save custom graph
+- Save custom graph
 
 
-Apply algorithem to the graph
+- Apply algorithem to the graph
 
 
-Document of each algorithem
+- Document of each algorithem
 
   
 //***********************************************
