@@ -18,7 +18,7 @@ Implemented algorithem:
 # Application Option: 
 
 
-- Create custom grapg
+- Create custom graph
 
 
 - Save custom graph
