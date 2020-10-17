@@ -15,7 +15,7 @@ Implemented algorithem:
   
   
   
-# Application Option: 
+# Application Option 
 
 
 - Create custom graph
