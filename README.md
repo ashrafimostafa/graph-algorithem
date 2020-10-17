@@ -31,4 +31,4 @@ Implemented algorithem:
 
   
   
--- this android application developed with java for unuversity home work
+//this android application developed with java for unuversity home work
